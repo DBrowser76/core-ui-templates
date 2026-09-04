@@ -1,123 +1,704 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Core Layout - Dashboard</title>
-    <style>
-        :root {
-            --sidebar-width: 260px;
-            --navbar-height: 60px;
-            --bg-primary: #0f172a;
-            --bg-surface: #1e293b;
-            --text-main: #f8fafc;
-            --accent: #38bdf8;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Byers Design Logic Bridge Authority | BDLBA</title>
+<meta name="description" content="A designer-led technical authority specializing in logic bridge architecture, system clarity, and modern digital transformation.">
+<link rel="canonical" href="https://bdlba.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BDLBA">
+<meta property="og:title" content="Byers Design Logic Bridge Authority">
+<meta property="og:description" content="Designing clarity. Engineering logic. Elevating digital ecosystems.">
+<meta property="og:url" content="https://bdlba.io/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Byers Design Logic Bridge Authority">
+<meta name="twitter:description" content="Designing clarity. Engineering logic. Elevating digital ecosystems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  :root{
+    --steel-900:#14171a;
+    --steel-800:#1c2024;
+    --steel-700:#282d33;
+    --steel-600:#3a4048;
+    --steel-500:#565e68;
+    --steel-line: rgba(255,255,255,0.06);
+    --paper:#EDEBE6;
+    --paper-dim:#9BA0A6;
+    --red:#E85A5A;
+    --red-dim: rgba(232,90,90,0.35);
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'IBM Plex Mono', monospace;
+  }
 
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            overflow: hidden; /* Prevents double scrollbars on the window */
-            height: 100vh;
-            display: flex;
-        }
+  *{ box-sizing:border-box; margin:0; padding:0; }
 
-        /* Sidebar Navigation */
-        .app-sidebar {
-            width: var(--sidebar-width);
-            height: 100%;
-            background-color: var(--bg-surface);
-            display: flex;
-            flex-direction: column;
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-            flex-shrink: 0;
-        }
+  html{ scroll-behavior:smooth; }
 
-        /* Viewport Container (Top Bar + Dynamic Stage) */
-        .app-viewport {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            height: 100%;
-            overflow: hidden;
-        }
+  body{
+    background:var(--steel-900);
+    color:var(--paper);
+    font-family:var(--font-body);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
 
-        /* Top Action/Status Bar */
-        .app-navbar {
-            height: var(--navbar-height);
-            background-color: var(--bg-surface);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            flex-shrink: 0;
-        }
+  a{ color:inherit; text-decoration:none; }
 
-        /* Isolated, Scrollable Work Area */
-        .app-stage {
-            flex-grow: 1;
-            padding: 1.5rem;
-            overflow-y: auto;
-            position: relative;
-        }
+  img{ max-width:100%; display:block; }
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
 
-        .card {
-            background-color: var(--bg-surface);
-            border-radius: 8px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.03);
-        }
-    </style>
+  @media (max-width:640px){
+    .wrap{ padding:0 20px; }
+  }
+
+  /* ---------- brushed steel texture ---------- */
+  .brushed{
+    position:relative;
+    background:
+      repeating-linear-gradient(100deg,
+        rgba(255,255,255,0.025) 0px,
+        rgba(255,255,255,0.025) 1px,
+        transparent 1px,
+        transparent 3px),
+      linear-gradient(155deg, var(--steel-800) 0%, var(--steel-700) 45%, var(--steel-800) 100%);
+  }
+
+  .brushed::before{
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse 60% 40% at 30% 0%, rgba(255,255,255,0.05), transparent 60%);
+    pointer-events:none;
+  }
+
+  :focus-visible{
+    outline:2px solid var(--red);
+    outline-offset:3px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(20,23,26,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--steel-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    max-width:1180px; margin:0 auto;
+  }
+  .nav-mark{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:0.02em;
+  }
+  .nav-mark span{ color:var(--red); }
+  .nav-links{ display:flex; gap:28px; font-size:13.5px; color:var(--paper-dim); }
+  .nav-links a{ position:relative; transition:color .2s ease; }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; right:0; bottom:-6px; height:1px;
+    background:var(--red); transform:scaleX(0); transform-origin:left;
+    transition:transform .25s ease;
+  }
+  .nav-links a:hover{ color:var(--paper); }
+  .nav-links a:hover::after{ transform:scaleX(1); }
+  .nav-cta{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.03em;
+    border:1px solid var(--steel-500); padding:9px 16px; border-radius:2px;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .nav-cta:hover{ border-color:var(--red); color:var(--red); }
+  @media (max-width:800px){ .nav-links{ display:none; } }
+
+  /* ---------- circuit rule divider (signature motif) ---------- */
+  .circuit-rule{ width:100%; height:34px; display:block; }
+  .circuit-rule .trace{ stroke:var(--steel-500); stroke-width:1; fill:none; }
+  .circuit-rule .node{ fill:var(--steel-600); }
+  .circuit-rule .pulse{ fill:var(--red); filter:drop-shadow(0 0 4px var(--red)); }
+
+  @keyframes travel{
+    0%{ offset-distance:0%; opacity:0; }
+    8%{ opacity:1; }
+    92%{ opacity:1; }
+    100%{ offset-distance:100%; opacity:0; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:150px 0 130px;
+    overflow:hidden;
+  }
+  .hero-bridge{
+    position:absolute;
+    inset:0;
+    opacity:0.55;
+  }
+  .hero-bridge path.trace{
+    stroke:rgba(255,255,255,0.09);
+    stroke-width:1;
+    fill:none;
+  }
+  .hero-bridge circle.node{ fill:rgba(255,255,255,0.14); }
+  .hero-bridge .pulse-dot{
+    fill:var(--red);
+    filter:drop-shadow(0 0 6px var(--red));
+    offset-rotate:0deg;
+  }
+  .pulse-a{ offset-path:path("M -40 300 C 200 220, 380 380, 620 260 S 980 160, 1260 300"); animation:travel 9s linear infinite; }
+  .pulse-b{ offset-path:path("M -40 420 C 260 480, 460 320, 700 420 S 1040 500, 1260 380"); animation:travel 12s linear infinite; animation-delay:3s; }
+
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--red);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:26px;
+    position:relative; z-index:2;
+  }
+  .eyebrow::before{
+    content:""; width:26px; height:1px; background:var(--red);
+  }
+
+  .hero-content{ position:relative; z-index:2; max-width:760px; }
+
+  h1.hero-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(34px, 5.4vw, 60px);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    color:var(--paper);
+  }
+  h1.hero-title .em{
+    color:var(--red);
+  }
+
+  .hero-sub{
+    margin-top:26px;
+    font-size:17px;
+    color:var(--paper-dim);
+    max-width:560px;
+    line-height:1.65;
+  }
+
+  .cta-row{ display:flex; gap:16px; margin-top:44px; flex-wrap:wrap; }
+
+  .btn{
+    font-family:var(--font-mono);
+    font-size:13px;
+    letter-spacing:0.03em;
+    padding:15px 26px;
+    border-radius:2px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .btn-primary{
+    background:var(--red);
+    color:var(--steel-900);
+    font-weight:500;
+    border:1px solid var(--red);
+  }
+  .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 8px 24px -8px var(--red-dim); }
+  .btn-secondary{
+    border:1px solid var(--steel-500);
+    color:var(--paper);
+  }
+  .btn-secondary:hover{ border-color:var(--paper); transform:translateY(-1px); }
+
+  /* ---------- section shell ---------- */
+  section{ padding:110px 0; position:relative; }
+  .section-head{ max-width:640px; margin-bottom:64px; }
+  .section-label{
+    font-family:var(--font-mono);
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--red); margin-bottom:18px;
+  }
+  h2.section-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(26px, 3.4vw, 38px);
+    line-height:1.18;
+    letter-spacing:-0.01em;
+  }
+  .section-desc{ margin-top:16px; color:var(--paper-dim); font-size:15.5px; max-width:520px; }
+
+  /* ---------- section 2 : pillars ---------- */
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--steel-line);
+    border:1px solid var(--steel-line);
+  }
+  @media (max-width:860px){ .pillars{ grid-template-columns:1fr; } }
+
+  .pillar{
+    background:var(--steel-800);
+    padding:40px 34px 36px;
+    position:relative;
+    transition:background .3s ease;
+  }
+  .pillar::before{
+    content:""; position:absolute; left:0; top:0; right:0; height:2px;
+    background:var(--red); transform:scaleX(0); transform-origin:left;
+    transition:transform .3s ease;
+  }
+  .pillar:hover{ background:var(--steel-700); }
+  .pillar:hover::before{ transform:scaleX(1); }
+
+  .pillar-index{
+    font-family:var(--font-mono); font-size:12px; color:var(--steel-500);
+    margin-bottom:26px;
+  }
+  .pillar-icon{ width:30px; height:30px; margin-bottom:22px; stroke:var(--red); }
+  .pillar h3{
+    font-family:var(--font-display); font-weight:600; font-size:19px; margin-bottom:12px;
+  }
+  .pillar p{ color:var(--paper-dim); font-size:14.5px; line-height:1.6; }
+
+  /* ---------- section 3 : founder ---------- */
+  .founder{
+    display:grid;
+    grid-template-columns:340px 1fr;
+    gap:70px;
+    align-items:center;
+  }
+  @media (max-width:820px){ .founder{ grid-template-columns:1fr; gap:40px; } }
+
+  .founder-portrait{
+    position:relative;
+    aspect-ratio:4/5;
+    border-radius:2px;
+    overflow:hidden;
+    background:
+      linear-gradient(160deg, rgba(232,90,90,0.25), transparent 55%),
+      linear-gradient(200deg, #2a2e33, #17191c 70%);
+    filter:grayscale(1) contrast(1.05);
+  }
+  .founder-portrait::after{
+    content:"";
+    position:absolute; inset:0;
+    background:linear-gradient(165deg, rgba(232,90,90,0.32), transparent 60%);
+    mix-blend-mode:screen;
+  }
+  .founder-portrait .initials{
+    position:absolute; bottom:26px; left:26px;
+    font-family:var(--font-display); font-weight:700; font-size:15px;
+    letter-spacing:0.04em; color:var(--paper);
+    z-index:2;
+  }
+
+  .founder-label{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--red); margin-bottom:18px;
+  }
+  h2.founder-name{
+    font-family:var(--font-display); font-weight:600; font-size:clamp(26px,3.6vw,36px);
+  }
+  .founder-role{
+    margin-top:10px; color:var(--paper-dim); font-size:14.5px; font-family:var(--font-mono);
+  }
+  .founder-quote{
+    margin-top:28px;
+    font-size:17px;
+    line-height:1.7;
+    color:#D9D6CF;
+    max-width:520px;
+    padding-left:20px;
+    border-left:2px solid var(--red);
+  }
+
+  /* ---------- section 4 : sessions ---------- */
+  .sessions-section{ background:var(--steel-800); border-top:1px solid var(--steel-line); border-bottom:1px solid var(--steel-line); }
+
+  .session-format{
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--red);
+    margin-top:10px;
+  }
+
+  .session-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:18px;
+    margin-bottom:60px;
+  }
+  @media (max-width:940px){ .session-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:560px){ .session-grid{ grid-template-columns:1fr; } }
+
+  .session-card{
+    background:var(--steel-700);
+    border:1px solid var(--steel-line);
+    padding:28px 22px;
+    border-radius:2px;
+    position:relative;
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .session-card:hover{ border-color:var(--red-dim); transform:translateY(-3px); }
+  .session-card .tag{
+    font-family:var(--font-mono); font-size:11px; color:var(--steel-500);
+    letter-spacing:0.08em; text-transform:uppercase;
+  }
+  .session-card h3{
+    font-family:var(--font-display); font-size:16.5px; font-weight:600; margin-top:14px; line-height:1.3;
+  }
+  .session-card .bar{ width:22px; height:2px; background:var(--red); margin-top:18px; }
+
+  .rules-row{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--steel-line);
+    border:1px solid var(--steel-line);
+  }
+  @media (max-width:760px){ .rules-row{ grid-template-columns:repeat(2, 1fr); } }
+
+  .rule{
+    background:var(--steel-800);
+    padding:24px 22px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .rule svg{ width:20px; height:20px; stroke:var(--red); }
+  .rule .rule-text{ font-size:13.5px; color:var(--paper-dim); line-height:1.5; }
+
+  .sessions-cta{ margin-top:52px; display:flex; justify-content:center; }
+
+  /* ---------- section 5 : philosophy ---------- */
+  .philosophy{ text-align:left; }
+  .philosophy-lead{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(24px, 3.8vw, 36px);
+    line-height:1.3;
+    max-width:760px;
+  }
+  .philosophy-lead .em{ color:var(--red); }
+  .philosophy-sub{ margin-top:22px; color:var(--paper-dim); font-size:15.5px; max-width:600px; line-height:1.7; }
+
+  .micro-row{
+    display:flex;
+    gap:0;
+    margin-top:64px;
+    border-top:1px solid var(--steel-line);
+  }
+  @media (max-width:760px){ .micro-row{ flex-direction:column; } }
+  .micro{
+    flex:1;
+    padding:30px 28px 0;
+    border-right:1px solid var(--steel-line);
+  }
+  .micro:last-child{ border-right:none; }
+  @media (max-width:760px){ .micro{ border-right:none; border-bottom:1px solid var(--steel-line); padding-bottom:24px; } }
+  .micro .num{ font-family:var(--font-mono); font-size:12px; color:var(--red); }
+  .micro p{ font-family:var(--font-display); font-size:17px; margin-top:14px; font-weight:500; }
+
+  /* ---------- section 6 : ventures ---------- */
+  .ventures-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:1px;
+    background:var(--steel-line);
+    border:1px solid var(--steel-line);
+  }
+  @media (max-width:820px){ .ventures-grid{ grid-template-columns:repeat(2, 1fr); } }
+  @media (max-width:520px){ .ventures-grid{ grid-template-columns:1fr; } }
+
+  .venture{
+    background:var(--steel-800);
+    padding:44px 26px;
+    min-height:150px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    transition:background .25s ease;
+    position:relative;
+  }
+  .venture:hover{ background:var(--steel-700); }
+  .venture::after{
+    content:""; position:absolute; left:26px; bottom:26px; width:0; height:1px; background:var(--red);
+    transition:width .3s ease;
+  }
+  .venture:hover::after{ width:36px; }
+  .venture .v-tag{ font-family:var(--font-mono); font-size:11px; color:var(--steel-500); letter-spacing:0.08em; text-transform:uppercase; }
+  .venture .v-name{ font-family:var(--font-display); font-size:19px; font-weight:600; margin-top:auto; padding-top:30px; }
+  .venture.highlight{ background:linear-gradient(155deg, rgba(232,90,90,0.14), var(--steel-800) 60%); }
+  .venture.highlight .v-name{ color:var(--red); }
+
+  /* ---------- section 7 : newsletter ---------- */
+  .connect{
+    background:var(--steel-800);
+    border-top:1px solid var(--steel-line);
+  }
+  .connect-inner{
+    display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:32px;
+  }
+  .connect h2{
+    font-family:var(--font-display); font-weight:600; font-size:clamp(22px,3vw,30px); max-width:420px;
+  }
+  form.signup{
+    display:flex; border-bottom:1px solid var(--steel-500); min-width:320px; flex:1; max-width:440px;
+    padding-bottom:14px;
+  }
+  form.signup input{
+    background:transparent; border:none; color:var(--paper);
+    font-family:var(--font-body); font-size:15px; flex:1; outline:none;
+  }
+  form.signup input::placeholder{ color:var(--steel-500); }
+  form.signup button{
+    background:none; border:none; color:var(--red);
+    font-family:var(--font-mono); font-size:13px; cursor:pointer; letter-spacing:0.03em;
+  }
+
+  /* ---------- footer ---------- */
+  footer{ padding:50px 0 40px; border-top:1px solid var(--steel-line); }
+  .footer-inner{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:18px;
+  }
+  .footer-mark{ font-family:var(--font-mono); font-size:12.5px; color:var(--paper-dim); }
+  .footer-links{ display:flex; gap:24px; font-size:13px; color:var(--paper-dim); }
+  .footer-links a{ position:relative; }
+  .footer-links a::after{
+    content:""; position:absolute; left:0; right:0; bottom:-4px; height:1px; background:var(--red);
+    transform:scaleX(0); transform-origin:left; transition:transform .25s ease;
+  }
+  .footer-links a:hover{ color:var(--paper); }
+  .footer-links a:hover::after{ transform:scaleX(1); }
+
+</style>
 </head>
 <body>
 
-    <!-- Navigation Authority -->
-    <aside class="app-sidebar">
-        <!-- Sidebar Header / Branding -->
-        <div style="padding: 1.5rem; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,0.05);">
-            SYSTEM CORE
-        </div>
-        <!-- Menu Context links go here -->
-    </aside>
-
-    <!-- Operational Viewport -->
-    <div class="app-viewport">
-        
-        <!-- Top Control Bar -->
-        <header class="app-navbar">
-            <div class="nav-left"><span style="color: var(--accent);">//</span> Status: Nominal</div>
-            <div class="nav-right">User Session</div>
-        </header>
-
-        <!-- Main Execution Stage -->
-        <main class="app-stage">
-            <div class="grid-container">
-                <div class="card">
-                    <h3>System Component Alpha</h3>
-                    <p style="margin-top: 0.5rem; color: #94a3b8;">Placeholder text for operational metrics, integration statuses, or control blocks.</p>
-                </div>
-                <div class="card">
-                    <h3>System Component Beta</h3>
-                    <p style="margin-top: 0.5rem; color: #94a3b8;">Placeholder text for secondary subroutines, logs, or real-time data feeds.</p>
-                </div>
-            </div>
-        </main>
-        
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-mark">BDLBA <span>/</span> Byers Design Logic Bridge Authority</div>
+    <div class="nav-links">
+      <a href="#pillars">Capabilities</a>
+      <a href="#founder">Founder</a>
+      <a href="#sessions">Sessions</a>
+      <a href="#ventures">Ventures</a>
     </div>
+    <a href="#sessions" class="nav-cta">Book a Session</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero brushed">
+  <svg class="hero-bridge" viewBox="0 0 1220 560" preserveAspectRatio="none" aria-hidden="true">
+    <path class="trace" d="M -40 300 C 200 220, 380 380, 620 260 S 980 160, 1260 300" />
+    <path class="trace" d="M -40 420 C 260 480, 460 320, 700 420 S 1040 500, 1260 380" />
+    <path class="trace" d="M -40 150 C 220 90, 500 190, 760 120 S 1080 60, 1260 140" />
+    <circle class="node" cx="200" cy="230" r="3"/>
+    <circle class="node" cx="500" cy="330" r="3"/>
+    <circle class="node" cx="820" cy="190" r="3"/>
+    <circle class="node" cx="1050" cy="240" r="3"/>
+    <circle class="node" cx="300" cy="450" r="3"/>
+    <circle class="node" cx="640" cy="400" r="3"/>
+    <circle class="node" cx="950" cy="460" r="3"/>
+    <circle class="pulse-dot pulse-a" cx="0" cy="0" r="4"/>
+    <circle class="pulse-dot pulse-b" cx="0" cy="0" r="3.5"/>
+  </svg>
+
+  <div class="wrap hero-content">
+    <div class="eyebrow">Byers Design Logic Bridge Authority</div>
+    <h1 class="hero-title">Designing clarity. Engineering logic.<br>Elevating digital <span class="em">ecosystems</span>.</h1>
+    <p class="hero-sub">A designer-led technical authority specializing in logic bridge architecture, system clarity, and modern digital transformation.</p>
+    <div class="cta-row">
+      <a href="#sessions" class="btn btn-primary">Book a Quick-Connect Session</a>
+      <a href="#pillars" class="btn btn-secondary">Explore Capabilities</a>
+    </div>
+  </div>
+</header>
+
+<!-- CIRCUIT DIVIDER -->
+<svg class="circuit-rule" viewBox="0 0 1180 34" preserveAspectRatio="none" aria-hidden="true">
+  <path class="trace" d="M0 17 H420 L450 5 H730 L760 29 H1180" />
+  <circle class="node" cx="450" cy="5" r="2.5"/>
+  <circle class="node" cx="760" cy="29" r="2.5"/>
+</svg>
+
+<!-- SECTION 2: PILLARS -->
+<section id="pillars">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">What BDLBA Does</div>
+      <h2 class="section-title">Three disciplines, one bridge.</h2>
+      <p class="section-desc">Every engagement moves through the same throughline: engineering clarity, design intuition, and forty years of strategic judgment.</p>
+    </div>
+  </div>
+  <div class="wrap" style="padding:0;">
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-index">01</div>
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.4"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12h9"/><path d="M12 12v-5"/><circle cx="12" cy="5" r="1.6"/></svg>
+        <h3>Logic Bridge Architecture</h3>
+        <p>Engineering-first clarity for complex systems, workflows, and integrations.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-index">02</div>
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 10h16"/><path d="M10 10v10"/></svg>
+        <h3>Designer-Forward Systems</h3>
+        <p>Modern UI/UX thinking applied to technical infrastructure, making systems intuitive, scalable, and human-centered.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-index">03</div>
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M12 3l8 4v5c0 5-3.4 8.4-8 9-4.6-.6-8-4-8-9V7z"/></svg>
+        <h3>Technical Advisory &amp; Digital Strategy</h3>
+        <p>40 years of legal-technical experience guiding organizations through transformation, modernization, and operational clarity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: FOUNDER -->
+<section id="founder">
+  <div class="wrap">
+    <div class="founder">
+      <div class="founder-portrait">
+        <div class="initials">D.B.</div>
+      </div>
+      <div>
+        <div class="founder-label">The Authority Behind the Bridge</div>
+        <h2 class="founder-name">Douglas Byers Sr</h2>
+        <div class="founder-role">Founder &amp; Creative Director, BDLBA — Retired legal professional (40 years), technical architect, designer, and systems strategist</div>
+        <p class="founder-quote">I build logic bridges — structured pathways that connect ideas, systems, and people. My work blends engineering precision with design clarity to create digital ecosystems that actually make sense.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: SESSIONS -->
+<section id="sessions" class="sessions-section">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Signature Quick-Connect Sessions</div>
+      <h2 class="section-title">Fast. Focused. Designed for clarity.</h2>
+      <div class="session-format">10 / 15 / 10 — the format, branded.</div>
+    </div>
+
+    <div class="session-grid">
+      <div class="session-card">
+        <div class="tag">Session</div>
+        <h3>Logic Bridge Diagnostic</h3>
+        <div class="bar"></div>
+      </div>
+      <div class="session-card">
+        <div class="tag">Session</div>
+        <h3>System Clarity Review</h3>
+        <div class="bar"></div>
+      </div>
+      <div class="session-card">
+        <div class="tag">Session</div>
+        <h3>Digital Strategy Alignment</h3>
+        <div class="bar"></div>
+      </div>
+      <div class="session-card">
+        <div class="tag">Session</div>
+        <h3>Technical Advisory Micro-Session</h3>
+        <div class="bar"></div>
+      </div>
+    </div>
+
+    <div class="rules-row">
+      <div class="rule">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 9h16"/><path d="M8 3v4M16 3v4"/></svg>
+        <div class="rule-text">Max 5 sessions per day</div>
+      </div>
+      <div class="rule">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+        <div class="rule-text">2-hour notice required</div>
+      </div>
+      <div class="rule">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="4" y="5" width="16" height="15" rx="1.5"/><path d="M4 10h16"/><path d="M9 14h2M13 14h2M9 17h2"/></svg>
+        <div class="rule-text">7-day booking window</div>
+      </div>
+      <div class="rule">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M4 12a8 8 0 0 1 14-5"/><path d="M20 12a8 8 0 0 1-14 5"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        <div class="rule-text">Automatic 10/15/10 buffer</div>
+      </div>
+    </div>
+
+    <div class="sessions-cta">
+      <a href="#" class="btn btn-primary">Schedule a Session</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: PHILOSOPHY -->
+<section id="philosophy">
+  <div class="wrap philosophy">
+    <div class="section-label">Design Philosophy</div>
+    <p class="philosophy-lead">Design is not decoration — it's <span class="em">direction</span>.</p>
+    <p class="philosophy-sub">BDLBA applies design thinking to technical systems, creating clarity, reducing friction, and elevating the human experience inside digital environments.</p>
+
+    <div class="micro-row">
+      <div class="micro"><div class="num">—</div><p>Clarity over complexity</p></div>
+      <div class="micro"><div class="num">—</div><p>Structure over chaos</p></div>
+      <div class="micro"><div class="num">—</div><p>Design over assumption</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: VENTURES -->
+<section id="ventures">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-label">Brands &amp; Ventures</div>
+      <h2 class="section-title">One authority, several ecosystems.</h2>
+    </div>
+  </div>
+  <div class="wrap" style="padding:0;">
+    <div class="ventures-grid">
+      <div class="venture"><div class="v-tag">Venture</div><div class="v-name">Protoability</div></div>
+      <div class="venture"><div class="v-tag">Venture</div><div class="v-name">Share-A-Tech Company</div></div>
+      <div class="venture"><div class="v-tag">Venture</div><div class="v-name">Tank Pusher</div></div>
+      <div class="venture"><div class="v-tag">Venture</div><div class="v-name">Drone Snap</div></div>
+      <div class="venture highlight"><div class="v-tag">Flagship</div><div class="v-name">BDLBA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: CONNECT -->
+<section class="connect">
+  <div class="wrap connect-inner">
+    <h2>Stay connected to the bridge.</h2>
+    <form class="signup" onsubmit="return false;">
+      <input type="email" placeholder="Your email address" aria-label="Email address" required>
+      <button type="submit">Subscribe →</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap footer-inner">
+    <div class="footer-mark">© 2026 Byers Design Logic Bridge Authority</div>
+    <div class="footer-links">
+      <a href="#pillars">Capabilities</a>
+      <a href="#founder">Founder</a>
+      <a href="#sessions">Sessions</a>
+      <a href="#ventures">Ventures</a>
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
